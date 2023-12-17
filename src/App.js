@@ -5,8 +5,9 @@ import React from "react";
 // import Learningtab from "./screen/learningtab/learningtab";
 // import AdminTable from "./components/trainingTab/AdminTable";
 // import Form from "./components/loginPageUI/loginPage";
+import Form from "./screen/login/loginpage";
 // import Report from "./screen/reportTab/report";
-// import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 // import TrainingTabPage from "./screen/trainingTab/TrainingTabPage";
 // import PageNotFoundPage from "./screen/errorPages/PageNotFoundPage";
 // import AccessDeniedPage from "./screen/errorPages/AccessDeniedPage";
@@ -16,6 +17,7 @@ import React from "react";
 // import ProtectedRouteAdmin from "./utils/protectedRoutesAdmin";
 
 import { useState, useEffect } from "react";
+// import { BrowserRouter } from "react-router-dom";
 // import DashboardPage from "./screen/adminDashboard/dashboard";
 // import Users from "./screen/users/userHome";
 // import UserEditForm from "./screen/users/userEditForm";
@@ -38,24 +40,30 @@ import { useState, useEffect } from "react";
 // import ConfirmationBox from "./components/trainingTab/ConfirmationBox";
 function App() {
   // hooks
-//   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
 //   // to check auth state
-//   const checkUserToken = () => {
-//     const userToken = localStorage.getItem("token");
-//     if (!userToken || userToken === "undefined") {
-//       setIsLoggedIn(false);
-//     } else {
-//       setIsLoggedIn(true);
-//     }
-//   };
-//   useEffect(() => {
-//     checkUserToken();
-//   }, [isLoggedIn]);
+  const checkUserToken = () => {
+    const userToken = localStorage.getItem("token");
+    if (!userToken || userToken === "undefined") {
+      setIsLoggedIn(false);
+    } else {
+      setIsLoggedIn(true);
+    }
+  };
+  useEffect(() => {
+    checkUserToken();
+  }, [isLoggedIn]);
 
   return (
     <div className="App p-0 m-0">
-    Abhinav Thakur</div>
+    <BrowserRouter>
+    {/* {isLoggedIn === true ? <Header setIsLoggedIn={setIsLoggedIn} isLoggedIn={isLoggedIn} type={localStorage.getItem("role")} /> : <></>} */}
+        <Routes>
+          <Route exact path="/" element={isLoggedIn ? <>{localStorage.getItem("role") === "Admin" ? <Navigate to={"/admin"} /> : <Navigate to={"/learning"} />}</> : <Form />} />
+  </Routes>
+    </BrowserRouter>
+    </div>
   );
 }
 
